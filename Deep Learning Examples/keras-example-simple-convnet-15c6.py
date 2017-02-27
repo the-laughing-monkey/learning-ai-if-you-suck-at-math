@@ -1,12 +1,10 @@
-'''Trains a simple convnet on the MNIST dataset.
-Gets to 99.25% test accuracy after 12 epochs
-(there is still a lot of margin for parameter tuning).
-16 seconds per epoch on a GRID K520 GPU.
+'''Trains a simple convnet on the CIFAR10 Dataset.  Gets about 82% accuracy with very little code.
+Added AtrousConvolution2D layers and LeakyRELU, plus additional layers to the original Keras example model, which was build for MNIST.
 '''
 
 from __future__ import print_function
 import numpy as np
-np.random.seed(1337)  # for reproducibility
+np.random.seed(1337)  # Very l33t
 
 from keras.datasets import cifar10
 from keras.callbacks import TensorBoard
@@ -66,6 +64,7 @@ model.add(LeakyReLU(alpha=.003))
 model.add(Convolution2D(nb_filters, kernel_size[0], kernel_size[1]))
 model.add(LeakyReLU(alpha=.003))
 model.add(Convolution2D(nb_filters, kernel_size[0], kernel_size[1]))
+model.add(LeakyReLU(alpha=.003))
 model.add(MaxPooling2D(pool_size=pool_size))
 model.add(Dropout(0.35))
 
@@ -91,7 +90,6 @@ model.add(Dense(nb_classes))
 model.add(Activation('softmax'))
 
 model.compile(loss='categorical_crossentropy',
-#              optimizer='adadelta',
               optimizer='adam',
               metrics=['accuracy'])
 
